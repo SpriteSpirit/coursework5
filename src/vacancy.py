@@ -21,3 +21,22 @@ class Vacancy:
             'salary': self.salary,
             'url': self.url,
         }
+
+    @classmethod
+    def cast_to_object_list(cls, data_list: list) -> list:
+        """ Преобразует элементы списка в объекты класса и возвращает список экземпляров класса. """
+
+        vacancies_list = []
+
+        for item in data_list:
+            vacancies_list.append(Vacancy(
+                item['id'],
+                item['name'],
+                item['employer']['id'],
+                item['employer']['name'],
+                item['area']['name'],
+                item['salary'].get('from', 0),
+                item['alternate_url']
+            ))
+
+        return vacancies_list

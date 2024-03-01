@@ -12,7 +12,7 @@ class DBManager:
         self.cursor = self.conn.cursor()
 
     def get_companies_and_vacancies_count(self):
-        """ Получает список всех компаний и количество вакансий у каждой компании. """
+        """ Возвращает список всех компаний и количество вакансий у каждой компании. """
 
         query = """
                 SELECT employers.company_name, COUNT(vacancies.vacancy_id) AS vacancies_count
@@ -27,7 +27,7 @@ class DBManager:
         return result
 
     def get_all_vacancies(self):
-        """ Получает список всех вакансий у работодателей и выводит информацию о них. """
+        """ Возвращает все вакансии у работодателей и выводит информацию о них. """
 
         query = """
                 SELECT employers.company_name, vacancies.vacancy_name, vacancies.salary, vacancies.url
@@ -52,3 +52,34 @@ class DBManager:
         result = int(self.cursor.fetchall()[0])
 
         return result
+
+    def get_vacancies_with_higher_salary(self):
+        """ Возвращает список вакансий, у которых зарплата выше средней по всем вакансиям. """
+
+        avg_salary = self.get_avg_salary()
+
+        query = """
+                SELECT *
+                FROM vacancies
+                WHERE vacancies.salary > %s
+                """
+
+        self.cursor.execute(query, avg_salary)
+        result = self.cursor.fetchall()
+
+        return result
+
+    def get_vacancies_with_keyword(self, keyword: str):
+        """ Возвращает список всех вакансий, содержащих ключевое слово. """
+
+        query = """
+               SELECT * 
+               FROM vacancies
+               WHERE LOWER(vacancies.vacancy_name) LIKE LOWER(%s)
+               """
+
+        self.cursor.execute(query, f'%{keyword}%')
+        result = self.cursor.fetchall()
+
+        return result
+

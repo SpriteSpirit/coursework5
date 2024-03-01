@@ -16,29 +16,6 @@ class HeadHunterAPI:
             'only_with_salary': True,
         }
 
-    def get_all_vacancies_info(self, pages: int = 1) -> list:
-        """
-        Возвращает список вакансий по ключевому запросу или все по-заданному кол-ву страниц.
-        :pages: int: - index - количество страниц для поиска
-        :return: Список всех найденных вакансий
-        """
-        all_vacancies = []
-
-        response = requests.get(url=self.vacancies_url, params=self.params)
-        data = response.json()
-
-        # Добавляем вакансии с первой страницы
-        all_vacancies.extend(data['items'])
-
-        # Пока есть следующая страница, добавляем вакансии в список
-        while data['pages'] > data['page'] != pages - 1:
-            self.params['page'] = data['page'] + 1
-            response = requests.get(url=self.vacancies_url, params=self.params)
-            data = response.json()
-            all_vacancies.extend(data['items'])
-
-        return all_vacancies
-
     def get_employer_info(self, employer_id: list) -> list:
         """
         Получает информацию о каждом работодателе.

@@ -64,7 +64,7 @@ def main_menu():
                 print_vacancies_with_keyword(vacancies_with_keyword)
                 JSONSaver.save_into_json_file(vacancies_with_keyword, 'vacancies_with_keyword')
             elif user_choice == 0:
-                print("Спасибо за то, что воспользовались JobFinder 👈(ﾟヮﾟ👈)")
+                print("Спасибо за то, что воспользовались JobFinder v2.0! 👈(ﾟヮﾟ👈)")
                 quit()
         except ValueError:
             print('Неверный ввод. Попробуйте снова.')

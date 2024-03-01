@@ -1,7 +1,7 @@
 import psycopg2
 
 from api.hh_api import HeadHunterAPI
-from src.data.db_manager import DBManager
+from data.db_manager import DBManager
 
 from src.employer import Employer
 from src.vacancy import Vacancy
@@ -18,23 +18,24 @@ class DBQuery:
         conn.autocommit = True
 
         with conn.cursor() as cur:
-            cur.execute('SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s', database_name)
+            cur.execute('SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s', (database_name, ))
             database_exist = cur.fetchone()
 
             if not database_exist:
                 cur.execute(f'CREATE DATABASE {database_name}')
+                print(f'Создана база данных: {database_name}')
 
         conn.close()
 
         params.update({'dbname': database_name})
 
         # 2. создание таблиц
-        conn = psycopg2.connect()
+        conn = psycopg2.connect(**params)
         conn.autocommit = True
 
         with conn.cursor() as cur:
             cur.execute("""
-                CREATE TABLE IF NOT EXIST employers (
+                CREATE TABLE IF NOT EXISTS employers (
                     employer_id serial PRIMARY KEY,
                     company_name varchar(255) NOT NULL,
                     url varchar(255)
@@ -42,10 +43,10 @@ class DBQuery:
             """)
 
             cur.execute("""
-                CREATE TABLE IF NOT EXIST vacancies (   
+                CREATE TABLE IF NOT EXISTS vacancies (   
                     vacancy_id serial PRIMARY KEY,
                     vacancy_name varchar(255) NOT NULL,
-                    employer_id int PREFERENCES employers(employer_id),
+                    employer_id int REFERENCES employers(employer_id),
                     company_name varchar(255),
                     city varchar(255),
                     salary int,
@@ -58,13 +59,12 @@ class DBQuery:
             conn.close()
 
     @staticmethod
-    def load_data(selected_employers: list, db_name: str) -> None:
+    def load_data(db_name: str, selected_employers: list):
         """
         Загружает данные о выбранных работодателях и вакансиях из API HeadHunter в базу данных.
 
+        :param db_name: Имя базы БД
         :param selected_employers: Список идентификаторов выбранных работодателей.
-        :param db_name: Имя базы данных, в которую нужно сохранить данные.
-        :return: None
         """
 
         hh = HeadHunterAPI()
@@ -80,4 +80,7 @@ class DBQuery:
         db_manager.insert_employers(Employer.cast_to_object_list(employers))
         db_manager.insert_vacancies(Vacancy.cast_to_object_list(vacancies))
 
-        db_manager.close_connection()
+        # db_manager.close_connection()
+
+        return db_manager
+

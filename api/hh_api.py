@@ -39,20 +39,17 @@ class HeadHunterAPI:
 
         return all_vacancies
 
-    def get_employer_info(self, employer_ids: list) -> list:
+    def get_employer_info(self, employer_id: list) -> list:
         """
         Получает информацию о каждом работодателе.
-        :param employer_ids: Список идентификаторов работодателей для получения информации.
+        :param employer_id: Идентификатор работодателя для получения информации.
         :return: Список словарей с информацией о работодателях.
         """
-        favourite_employers = []
 
-        for employer_id in employer_ids:
-            response = requests.get(f'{self.employers_url}/{employer_id}', self.params)
-            data = response.json()
-            favourite_employers.append(data)
+        response = requests.get(f'{self.employers_url}/{employer_id}', self.params)
+        data = response.json()
 
-        return favourite_employers
+        return data
 
     def get_vacancies_by_employer(self, employer_id: int) -> list:
         """

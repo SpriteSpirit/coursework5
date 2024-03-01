@@ -49,7 +49,7 @@ class DBManager:
                 """
 
         self.cursor.execute(query)
-        result = int(self.cursor.fetchall()[0])
+        result = int(self.cursor.fetchone()[0])
 
         return result
 
@@ -64,7 +64,7 @@ class DBManager:
                 WHERE vacancies.salary > %s
                 """
 
-        self.cursor.execute(query, avg_salary)
+        self.cursor.execute(query, (avg_salary,))
         result = self.cursor.fetchall()
 
         return result
@@ -78,7 +78,7 @@ class DBManager:
                WHERE LOWER(vacancies.vacancy_name) LIKE LOWER(%s)
                """
 
-        self.cursor.execute(query, f'%{keyword}%')
+        self.cursor.execute(query, (f'%{keyword}%', ))
         result = self.cursor.fetchall()
 
         return result

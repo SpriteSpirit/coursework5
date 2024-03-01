@@ -1,6 +1,5 @@
 import time
 
-from data.db_manager import DBManager
 from src.data.db_query import DBQuery
 from src.configurations.config import config
 

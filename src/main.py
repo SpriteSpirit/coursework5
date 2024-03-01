@@ -59,7 +59,7 @@ def main_menu():
                 JSONSaver.save_into_json_file(vacancies_higher_avg_salary, 'vacancies_higher_avg_salary')
             elif user_choice == 5:
                 # ---------- vacancies_with_keyword ----------#
-                user_keyword = input('Введите ключевое слово для поиска\n::=> ')
+                user_keyword = input('Введите ключевое слово для поиска. Например: python\n::=> ')
                 vacancies_with_keyword = db_manager.get_vacancies_with_keyword(user_keyword)
                 print_vacancies_with_keyword(vacancies_with_keyword)
                 JSONSaver.save_into_json_file(vacancies_with_keyword, 'vacancies_with_keyword')

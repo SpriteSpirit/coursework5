@@ -24,7 +24,11 @@ class DBQuery:
 
             if database_exist:
                 cur.execute(f'DROP DATABASE {database_name}')
-                time.sleep(3)
+                print(f'Обнаружена старая версия БД: {database_name}. База будет удалена.')
+                print(f'База данных {database_name} удалена.')
+                time.sleep(5)
+                cur.execute(f'CREATE DATABASE {database_name}')
+                print(f'Создана база данных: {database_name}')
             else:
                 cur.execute(f'CREATE DATABASE {database_name}')
                 print(f'Создана база данных: {database_name}')

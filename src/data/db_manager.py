@@ -97,3 +97,16 @@ class DBManager:
                         vacancy.city, vacancy.salary, vacancy.url)
             )
 
+    def insert_employers(self, employers: list):
+        """ Добавляет работодателей из списка в БД """
+
+        query = """
+               INSERT INTO employers (employer_id, company_name, url) 
+               VALUES (%s, %s, %s)
+               """
+
+        for employer in employers:
+            self.cursor.execute(
+                query, (employer.employer_id, employer.company_name, employer.url)
+            )
+

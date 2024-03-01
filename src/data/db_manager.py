@@ -83,3 +83,17 @@ class DBManager:
 
         return result
 
+    def insert_vacancies(self, vacancies: list):
+        """ Добавляет вакансию из списка вакансий в БД. """
+
+        query = """
+               INSERT INTO vacancies (vacancy_id, vacancy_name, employer_id, company_name, city, salary, url) 
+               VALUES (%s, %s, %s, %s, %s, %s, %s)
+               """
+
+        for vacancy in vacancies:
+            self.cursor.execute(
+                query, (vacancy.vacancy_id, vacancy.vacancy_name, vacancy.employer_id, vacancy.company_name,
+                        vacancy.city, vacancy.salary, vacancy.url)
+            )
+

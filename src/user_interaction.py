@@ -1,12 +1,12 @@
 
 
 def print_all_companies_and_vacancies(total_list: list) -> None:
-    """  """
+    """ Выводит в консоль все компании и кол-во вакансий """
 
     print("Компании и количество вакансий:")
 
-    for items in total_list:
-        print(items)
+    for company, vacancies_count in total_list:
+        print(f'{company} : {vacancies_count} ')
 
     all_vacancies = sum([vac[1] for vac in total_list])
 
@@ -14,13 +14,13 @@ def print_all_companies_and_vacancies(total_list: list) -> None:
 
 
 def print_all_vacancies(total_list: list) -> None:
-    """  """
+    """ Выводит в консоль все вакансии выбранных компаний """
 
     print_dict = {}
 
     for vacancy in total_list:
         company_name = vacancy[0]
-        vacancy_details = f'{vacancy[1]}, {vacancy[2]}, {vacancy[3]}'
+        vacancy_details = f'{vacancy[1]}, {vacancy[2]} RUB, {vacancy[3]}'
 
         if company_name in print_dict:
             print_dict[company_name].append(vacancy_details)
@@ -37,19 +37,19 @@ def print_all_vacancies(total_list: list) -> None:
 
 
 def print_avg_salary(avg_salary: float) -> None:
-    """  """
+    """ Выводит среднюю зарплату по вакансиям """
     print(f"Средняя зарплата по вакансиям: {avg_salary} RUB.")
 
 
 def print_vacancies_higher_avg_salary(total_list: list) -> None:
-    """  """
+    """ Выводит вакансии с зарплатой выше средней """
 
     print_dict = {}
 
     for vacancy in total_list:
         company_name = vacancy[3]
-        vacancy_details = {'Название вакансии': vacancy[1], 'ID вакансии': vacancy[0], 'Город': vacancy[4],
-                           'Зарплата': vacancy[5], 'Ссылка': vacancy[6], 'ID компании': vacancy[2]}
+        vacancy_details = {'Вакансия': vacancy[1], 'Город': vacancy[4], 'Зарплата': f'{vacancy[5]} RUB',
+                           'Ссылка': vacancy[6], 'ID вакансии': vacancy[0], 'ID компании': vacancy[2]}
 
         if company_name in print_dict:
             print_dict[company_name].append(vacancy_details)
@@ -66,14 +66,14 @@ def print_vacancies_higher_avg_salary(total_list: list) -> None:
 
 
 def print_vacancies_with_keyword(total_list: list) -> None:
-    """  """
+    """ Выводит все вакансии, содержащие ключевое слово в запросе """
 
     print_dict = {}
 
     for vacancy in total_list:
         company_name = vacancy[3]
-        vacancy_details = {'Название вакансии': vacancy[1], 'ID вакансии': vacancy[0], 'Город': vacancy[4],
-                           'Зарплата': vacancy[5], 'Ссылка': vacancy[6], 'ID компании': vacancy[2]}
+        vacancy_details = {'Вакансия': vacancy[1], 'Город': vacancy[4], 'Зарплата': f'{vacancy[5]} RUB',
+                           'Ссылка': vacancy[6], 'ID вакансии': vacancy[0], 'ID компании': vacancy[2]}
 
         if company_name in print_dict:
             print_dict[company_name].append(vacancy_details)

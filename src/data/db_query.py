@@ -1,3 +1,4 @@
+import time
 import psycopg2
 
 from api.hh_api import HeadHunterAPI
@@ -21,7 +22,10 @@ class DBQuery:
             cur.execute('SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s', (database_name, ))
             database_exist = cur.fetchone()
 
-            if not database_exist:
+            if database_exist:
+                cur.execute(f'DROP DATABASE {database_name}')
+                time.sleep(3)
+            else:
                 cur.execute(f'CREATE DATABASE {database_name}')
                 print(f'Создана база данных: {database_name}')
 
@@ -83,4 +87,3 @@ class DBQuery:
         # db_manager.close_connection()
 
         return db_manager
-

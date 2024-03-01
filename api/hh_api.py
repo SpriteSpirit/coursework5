@@ -10,14 +10,13 @@ class HeadHunterAPI:
         self.params = {
             'area': '113',
             'text': keyword,
-            'search_field': 'company_name',
             'per_page': 100,
             'page': 0,
             'only_with_vacancies': True,
             'only_with_salary': True,
         }
 
-    def get_all_vacancies_info(self, pages: int = 2) -> list:
+    def get_all_vacancies_info(self, pages: int = 1) -> list:
         """
         :pages: int: - index - количество страниц для поиска
         :return: Список всех найденных вакансий
@@ -38,3 +37,18 @@ class HeadHunterAPI:
             all_vacancies.extend(data['items'])
 
         return all_vacancies
+
+    def get_employer_info(self, employer_ids: list) -> list:
+        """
+        Получает информацию о каждом работодателе.
+        :param employer_ids: Список идентификаторов работодателей для получения информации.
+        :return: Список словарей с информацией о работодателях.
+        """
+        favourite_employers = []
+
+        for employer_id in employer_ids:
+            response = requests.get(f'{self.employers_url}/{employer_id}', self.params)
+            data = response.json()
+            favourite_employers.append(data)
+
+        return favourite_employers

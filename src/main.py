@@ -41,6 +41,11 @@ def main():
     print_vacancies_higher_avg_salary(vacancies_higher_avg_salary)
     JSONSaver.save_into_json_file(vacancies_higher_avg_salary, 'vacancies_higher_avg_salary')
 
+    # ---------- print_vacancies_with_keyword ----------#
+    vacancies_with_keyword = db_manager.get_vacancies_with_keyword()
+    print_vacancies_with_keyword(vacancies_with_keyword)
+    JSONSaver.save_into_json_file(vacancies_with_keyword, 'vacancies_with_keyword')
+
 
 if __name__ == '__main__':
     main()

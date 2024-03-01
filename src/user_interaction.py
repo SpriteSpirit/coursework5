@@ -42,6 +42,8 @@ def print_avg_salary(avg_salary: float) -> None:
 
 
 def print_vacancies_higher_avg_salary(total_list: list) -> None:
+    """  """
+
     print_dict = {}
 
     for vacancy in total_list:
@@ -54,7 +56,31 @@ def print_vacancies_higher_avg_salary(total_list: list) -> None:
         else:
             print_dict[company_name] = [vacancy_details]
 
-    print(f"\nВсе вакансии:")
+    print(f"\nВакансии с зарплатой выше средней:")
+
+    # Выводим вакансии для каждой компании
+    for company, vacancies in print_dict.items():
+        print(f'\n{company}:')
+        for i, vacancy_details in enumerate(vacancies, 1):
+            print(f'{i}. {vacancy_details}')
+
+
+def print_vacancies_with_keyword(total_list: list) -> None:
+    """  """
+
+    print_dict = {}
+
+    for vacancy in total_list:
+        company_name = vacancy[3]
+        vacancy_details = {'Название вакансии': vacancy[1], 'ID вакансии': vacancy[0], 'Город': vacancy[4],
+                           'Зарплата': vacancy[5], 'Ссылка': vacancy[6], 'ID компании': vacancy[2]}
+
+        if company_name in print_dict:
+            print_dict[company_name].append(vacancy_details)
+        else:
+            print_dict[company_name] = [vacancy_details]
+
+    print(f"\nВакансии, содержащие ключевое слово:")
 
     # Выводим вакансии для каждой компании
     for company, vacancies in print_dict.items():

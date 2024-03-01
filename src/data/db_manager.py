@@ -110,3 +110,7 @@ class DBManager:
                 query, (employer.employer_id, employer.company_name, employer.url)
             )
 
+    def close_connection(self):
+        """ Закрывает соединение с базой данных. """
+
+        return self.conn.close()

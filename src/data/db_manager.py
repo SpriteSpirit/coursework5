@@ -11,7 +11,7 @@ class DBManager:
         self.conn.autocommit = True
         self.cursor = self.conn.cursor()
 
-    def get_companies_and_vacancies_count(self) -> int:
+    def get_companies_and_vacancies_count(self):
         """ Получает список всех компаний и количество вакансий у каждой компании. """
 
         query = """
@@ -25,3 +25,18 @@ class DBManager:
         result = self.cursor.fetchall()
 
         return result
+
+    def get_all_vacancies(self):
+        """ Получает список всех вакансий у работодателей и выводит информацию о них. """
+
+        query = """
+                    SELECT employers.company_name, vacancies.vacancy_name, vacancies.salary, vacancies.url
+                    FROM vacancies
+                    INNER JOIN employers ON employers.employer_id = vacancies.employer_id   
+                """
+
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+
+        return result
+
